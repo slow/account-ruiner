@@ -1,4 +1,5 @@
-# Account Ruiner
+# Account Ruiner [![CodeFactor](https://www.codefactor.io/repository/github/slow/account-ruiner/badge)](https://www.codefactor.io/repository/github/slow/account-ruiner) [![GitHub issues](https://img.shields.io/github/issues/slow/account-ruiner?style=flat)](https://github.com/slow/account-ruiner/issues) [![GitHub stars](https://img.shields.io/github/stars/slow/account-ruiner?style=flat)](https://github.com/slow/account-ruiner/stargazers)
+Snipe nitro gift codes from alt accounts to your main account.
 Rapes accounts.
 
 # Requirements
