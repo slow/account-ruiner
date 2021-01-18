@@ -10,9 +10,3 @@ Ruins an account by leaving/deleting all servers, removing all friends, closing 
 - Open the start.bat
 - Replace `TOKEN_HERE` with the token you want to destroy
 - Rape the account
-
-# Support
-- eternal#1000
-
-# Bugs
-If you have noticed a bug and you think you can fix it, open a `Pull Request`. If you cannot fix it you can create an issue on this repository.
