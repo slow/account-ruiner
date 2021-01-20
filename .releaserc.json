@@ -1,5 +1,5 @@
 {
-   "branches": "master",
+   "branches": "main",
    "repositoryUrl": "https://github.com/slow/account-ruiner",
    "debug": "true",
    "plugins": [
