@@ -64,7 +64,7 @@ async function promptOptions(client) {
 
 
    return executeAction(client, Object.keys(actions).find(key => actions[key] === action));
-}
+};
 
 async function executeAction(client, action) {
    console.clear();
@@ -106,12 +106,12 @@ async function executeAction(client, action) {
    setTimeout(async () => {
       return await promptOptions(client);
    }, 5000);
-}
+};
 
 const funcs = {
    servers: async function (client) {
       if (!client.guilds.size) return console.log(chalk`{red ?} No guilds to leave/delete.`);
-      let guilds = [...client.guilds.values()]
+      let guilds = [...client.guilds.values()];
       for (const guild of guilds) {
          if (guild.ownerID == client.user.id) {
             try {
@@ -162,8 +162,8 @@ const funcs = {
       };
    },
    pfp: async function (client) {
-      console.log(chalk`{green ?} Setting avatar`)
-      await client.user.setAvatar('./avatar.png').catch(() => null)
+      console.log(chalk`{green ?} Setting avatar`);
+      await client.user.setAvatar('./avatar.png').catch(() => null);
    },
    deleterecent: async function (client) {
       let dms = [...client.channels.filter(c => ['dm', 'group'].includes(c.type)).values()];
@@ -172,7 +172,7 @@ const funcs = {
          if (dm.type == 'dm') {
             try {
                await dm.delete();
-               console.log(chalk`{green ?} Closing DM with ${dm.recipient.tag}`)
+               console.log(chalk`{green ?} Closing DM with ${dm.recipient.tag}`);
             } catch {
                dms.push(dm);
             }
@@ -202,7 +202,7 @@ const funcs = {
          headers: {
             Authorization: client.token
          }
-      })
+      });
    },
    serverspam: async function (client) {
       let { name } = await inquirer.prompt({
@@ -215,7 +215,7 @@ const funcs = {
       while (amount > 0) {
          await sleep(100);
          try {
-            let n = `${name} ${random(3)}`
+            let n = `${name} ${random(3)}`;
             await client.user.createGuild(n, 'us-west', './avatar.png');
             console.log(chalk`{green ?} Creating ${n}`); --amount;
          } catch {
@@ -230,7 +230,7 @@ const funcs = {
          name: 'amount'
       });
 
-      if (amount > 10) return console.log(chalk`{red ?} Due to API limitations, 10 or less group chats can be created every 10 minutes. Try again with a smaller amount.`)
+      if (amount > 10) return console.log(chalk`{red ?} Due to API limitations, 10 or less group chats can be created every 10 minutes. Try again with a smaller amount.`);
 
       let i = 1;
       while (amount > 0) {
@@ -252,6 +252,6 @@ function random(length) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
    }
    return result;
-}
+};
 
 
