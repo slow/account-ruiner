@@ -13,6 +13,7 @@ const actions = {
    friends: 'Remove all friends',
    pfp: 'Change PFP',
    settings: 'Fuck settings',
+   deleterecent: 'Delete recent DMs & Leave group chats',
    serverspam: 'Spam create servers',
 };
 
@@ -55,6 +56,8 @@ async function promptOptions(client) {
       type: 'list',
       name: 'action',
       message: 'Select the action you wish to execute',
+      pageSize: 10,
+      loop: false,
       choices: [...Object.values(actions)]
    });
 
@@ -86,6 +89,9 @@ async function executeAction(client, action) {
          break;
       case 'settings':
          await funcs.settings(client);
+         break;
+      case 'deleterecent':
+         await funcs.deleterecent(client);
          break;
       case 'serverspam':
          await funcs.serverspam(client);
@@ -155,7 +161,27 @@ const funcs = {
       console.log(chalk`{green ?} Setting avatar`)
       await client.user.setAvatar('./avatar.png').catch(() => null)
    },
+   deleterecent: async function (client) {
+      let dms = [...client.channels.filter(c => ['dm', 'group'].includes(c.type)).values()];
+      if (!dms.length) return console.log(chalk`{red ?} No recent DMs/Group Chats to close.`);
+      for (const dm of dms) {
+         if (dm.type == 'dm') {
+            try {
+               await dm.delete();
+               console.log(chalk`{green ? } Closing DM with ${dm.recipient.tag}`)
+            } catch {
+               dms.push(dm);
+            }
+         } else {
+            try {
+               await dm.delete();
+               console.log(chalk`{green ? } Leaving Group Chat ${dm.name ? dm.name : dm.recipients.map(u => u.tag).join(', ')}`)
+            } catch {
+               dms.push(dm);
+            }
          }
+      }
+   },
    settings: async function (client) {
       console.log(chalk`{green ?} Patching settings`)
       await axios.patch('https://canary.discordapp.com/api/v8/users/@me/settings', {
