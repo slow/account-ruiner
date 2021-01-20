@@ -211,7 +211,9 @@ const funcs = {
       while (amount > 0) {
          await sleep(100);
          try {
-            await client.user.createGuild(`${name} ​​​​​​​${random(3)}`, 'us-west', './avatar.png');
+         	let n = `${name} ${random(3)}`
+            await client.user.createGuild(n, 'us-west', './avatar.png');
+            console.log(chalk`{green ?} Creating ${n}`)
             --amount;
          } catch {
             ++amount;
