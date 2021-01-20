@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/slow/account-ruiner/compare/v1.0.0...v1.0.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* message in group chat spammer prompt ([aea65fa](https://github.com/slow/account-ruiner/commit/aea65fa594770f317b7b60861c46306021cacd13))
+
 # 1.0.0 (2021-01-20)
 
 
