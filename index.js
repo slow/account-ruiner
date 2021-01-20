@@ -226,7 +226,7 @@ const funcs = {
    groupspam: async function (client) {
       let { amount } = await inquirer.prompt({
          type: 'number',
-         message: 'How many group chats do you want to spam create?',
+         message: 'How many group chats do you want to spam create? (max: 10)',
          name: 'amount'
       });
 
