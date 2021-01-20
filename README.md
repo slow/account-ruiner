@@ -8,6 +8,6 @@ Ruins an account by leaving/deleting all servers, removing all friends, closing 
 - Node.js (https://nodejs.org)
 
 # Preview 
-![Console](https://media.wtf/13542976)
+![Console](https://media.wtf/19897242.gif)
 [![Video](https://i.imgur.com/QIaIekx.png)](https://youtu.be/IZCtaZzhb3s)
 
