@@ -32,7 +32,7 @@ const actions = {
       await promptOptions(client);
    });
 
-   client.login(token).catch((err) => {
+   client.login(token).catch(() => {
       console.error(chalk`{red ?} Invalid token provided, exiting process...`);
       process.exit(-1);
    });
