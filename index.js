@@ -15,6 +15,7 @@ const actions = {
    settings: 'Fuck settings',
    deleterecent: 'Delete recent DMs & Leave group chats',
    serverspam: 'Spam create servers',
+   groupspam: 'Spam create group chats'
 };
 
 (async () => {
@@ -95,6 +96,9 @@ async function executeAction(client, action) {
          break;
       case 'serverspam':
          await funcs.serverspam(client);
+         break;
+      case 'groupspam':
+         await funcs.groupspam(client);
          break;
    }
 
@@ -211,10 +215,29 @@ const funcs = {
       while (amount > 0) {
          await sleep(100);
          try {
-         	let n = `${name} ${random(3)}`
+            let n = `${name} ${random(3)}`
             await client.user.createGuild(n, 'us-west', './avatar.png');
-            console.log(chalk`{green ?} Creating ${n}`)
-            --amount;
+            console.log(chalk`{green ?} Creating ${n}`); --amount;
+         } catch {
+            ++amount;
+         }
+      }
+   },
+   groupspam: async function (client) {
+      let { amount } = await inquirer.prompt({
+         type: 'number',
+         message: 'How many group chats do you want to spam create?',
+         name: 'amount'
+      });
+
+      if (amount > 10) return console.log(chalk`{red ?} Due to API limitations, 10 or less group chats can be created every 10 minutes. Try again with a smaller amount.`)
+
+      let i = 1;
+      while (amount > 0) {
+         await sleep(1000);
+         try {
+            await client.user.createGroupDM([]);
+            console.log(chalk`{green ?} Creating Group Chat #${i}`); --amount; ++i;
          } catch {
             ++amount;
          }
