@@ -25,7 +25,7 @@ const actions = {
       message: "Input the token you would like to ruin:"
    });
 
-   console.log(chalk`{green ?} Logging in...`)
+   console.log(chalk`{green ?} Logging in...`);
 
    const client = new Client();
 
