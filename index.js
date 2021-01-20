@@ -105,7 +105,7 @@ async function executeAction(client, action) {
    console.log(chalk`{green ?} Action(s) have been executed successfully, returning to the main menu...`);
    setTimeout(async () => {
       return await promptOptions(client);
-   }, 3000);
+   }, 5000);
 }
 
 const funcs = {
