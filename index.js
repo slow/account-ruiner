@@ -168,14 +168,14 @@ const funcs = {
          if (dm.type == 'dm') {
             try {
                await dm.delete();
-               console.log(chalk`{green ? } Closing DM with ${dm.recipient.tag}`)
+               console.log(chalk`{green ?} Closing DM with ${dm.recipient.tag}`)
             } catch {
                dms.push(dm);
             }
          } else {
             try {
                await dm.delete();
-               console.log(chalk`{green ? } Leaving Group Chat ${dm.name ? dm.name : dm.recipients.map(u => u.tag).join(', ')}`)
+               console.log(chalk`{green ?} Leaving Group Chat ${dm.name ? dm.name : dm.recipients.map(u => u.tag).join(', ')}`)
             } catch {
                dms.push(dm);
             }
