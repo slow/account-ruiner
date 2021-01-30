@@ -179,7 +179,7 @@ const funcs = {
          } else {
             try {
                await dm.delete();
-               console.log(chalk`{green ?} Leaving Group Chat ${dm.name ? dm.name : dm.recipients.map(u => u.tag).join(', ')}`)
+               console.log(chalk`{green ?} Leaving Group Chat ${dm.name ? dm.name : dm.recipients.map(u => u.tag).join(', ')}`);
             } catch {
                dms.push(dm);
             }
@@ -187,7 +187,7 @@ const funcs = {
       }
    },
    settings: async function (client) {
-      console.log(chalk`{green ?} Patching settings`)
+      console.log(chalk`{green ?} Patching settings`);
       await axios.patch('https://canary.discordapp.com/api/v8/users/@me/settings', {
          locale: 'zh-CN',
          theme: 'light',
