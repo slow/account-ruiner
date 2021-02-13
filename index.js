@@ -188,7 +188,7 @@ const funcs = {
    },
    settings: async function (client) {
       console.log(chalk`{green ?} Patching settings`);
-      await axios.patch('https://canary.discordapp.com/api/v8/users/@me/settings', {
+      await axios.patch('https://discord.com/api/v8/users/@me/settings', {
          locale: 'zh-CN',
          theme: 'light',
          message_display_compact: true,
